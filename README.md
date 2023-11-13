@@ -1,3 +1,3 @@
-# bs-agent
+# exec-agent
 
 A programmable computation environment
