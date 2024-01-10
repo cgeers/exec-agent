@@ -1,4 +1,4 @@
-PROJECT := bs-agent
+PROJECT := exec-agent
 
 build:
 	cargo build
