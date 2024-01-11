@@ -1,23 +1,33 @@
 use tungstenite::{connect, Message};
 use url::Url;
+use std::thread;
+use log;
+
+mod web;
 
 fn main() {
-    env_logger::init();
+    pretty_env_logger::init();
+
+    thread::Builder::new().name("web".to_string()).spawn( || {
+        web::server::start();
+    }).ok();
+
 
     let (mut socket, response) =
         connect(Url::parse("ws://localhost:3012/socket").unwrap()).expect("Can't connect");
 
-    println!("Connected to the server");
-    println!("Response HTTP code: {}", response.status());
-    println!("Response contains the following headers:");
+    log::debug!("Connected to the server");
+    log::debug!("Response HTTP code: {}", response.status());
+    log::debug!("Response contains the following headers:");
     for (ref header, _value) in response.headers() {
-        println!("* {}", header);
+        log::debug!("* {}", header);
     }
 
-    socket.write_message(Message::Text("Hello WebSocket".into())).unwrap();
+    socket.send(Message::Text("Hello WebSocket".into())).unwrap();
     loop {
-        let msg = socket.read_message().expect("Error reading message");
-        println!("Received: {}", msg);
+        let msg = socket.read().expect("Error reading message");
+        log::info!("Received from upstream: {}", msg);
     }
     // socket.close(None);
+
 }
