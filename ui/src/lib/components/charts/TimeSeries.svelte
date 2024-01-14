@@ -48,4 +48,17 @@
     var myChart = new Chart(ctx, config);
   })
 </script>
-<canvas bind:this={portfolio} width={400} height={400} />
+
+<div>
+    <canvas bind:this={portfolio} width={100} height={100} />
+</div>
+
+
+<style>
+    div { width: 50vw; height: 50vh; }
+    canvas {
+        width: 100%;
+        height: 100%;
+        background-color: #666;
+    }
+</style>
