@@ -4,7 +4,7 @@ use warp::Filter;
 use rust_embed::RustEmbed;
 
 #[derive(RustEmbed)]
-#[folder = "src/web/ui"]
+#[folder = "ui/build"]
 struct WebUI;
 
 #[tokio::main]
